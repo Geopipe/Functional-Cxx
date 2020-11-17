@@ -8,7 +8,7 @@ project(FunctionalCxx)
 
 find_package(Boost 1.65)
 
-set(functional_cxx_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
+set(functional_cxx_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(base_path ${functional_cxx_INCLUDE_DIR}/functional)
 
 message(STATUS "base_path = ${base_path}")
