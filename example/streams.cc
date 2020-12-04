@@ -18,7 +18,7 @@
  *
  ************************************************************************************/
 
-#include <functional/stream.hpp>
+#include <functional-cxx/stream.hpp>
 
 #include <algorithm>
 #include <iostream>

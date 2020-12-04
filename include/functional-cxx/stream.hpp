@@ -26,8 +26,8 @@
 #include <type_traits>
 #include <utility>
 
-#include <functional/support/memory-hacks.hpp>
-#include <functional/support/unique-function.hpp>
+#include <functional-cxx/support/memory-hacks.hpp>
+#include <functional-cxx/support/unique-function.hpp>
 
 namespace com {
 	namespace geopipe {

@@ -21,7 +21,7 @@
 #include <map>
 #include <iostream>
 
-#include <functional/lazy-wrapper.hpp>
+#include <functional-cxx/lazy-wrapper.hpp>
 
 int main(int argc, char* argv[]){
 	std::map<int, int> example;
