@@ -2,7 +2,7 @@
 /************************************************************************************
  *
  * Author: Thomas Dickerson
- * Copyright: 2019 - 2020, Geopipe, Inc.
+ * Copyright: 2019 - 2021, Geopipe, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -25,11 +25,26 @@
 
 namespace com {
 	namespace geopipe {
+		/**************************************************
+		 * Tools for functional programming
+		 **************************************************/
 		namespace functional {
+			/**************************************************
+			 * Internal implementation details
+			 **************************************************/
 			namespace detail {
 				template<typename T>
 				class UniqueFunction;
-
+				
+				/**************************************************
+				 * Like `std::function<R(Args...)>`, but for 
+				 * move-only functor types.
+				 * 
+				 * Like `std::function::operator()`, 
+				 * `UniqueFunction::operator()` allows type erasure
+				 * of the wrapped functor's implementation details,
+				 * at the cost of a virtual dispatch.
+				 **************************************************/
 				template<typename R, typename ...Args>
 				class UniqueFunction<R(Args...)> {
 					struct FunctionHolderBase {
