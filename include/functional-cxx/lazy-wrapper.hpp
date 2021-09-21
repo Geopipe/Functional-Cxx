@@ -39,7 +39,7 @@ namespace com {
 			 * #_TODO(type) macros.
 			 **************************************************/
 			template<class F> struct lazy : F {
-				using F::operator(); ///< Make `F::operator()` into `lazy<F>::operator()`.
+				using F::operator(); // Make `F::operator()` into `lazy<F>::operator()`.
 				using type = std::invoke_result_t<F>; ///< The result type of forcing the thunk.
 				/**************************************************
 				 * The common use is as a forwarded temporary
