@@ -59,7 +59,7 @@ namespace com {
 
             /******************************************************
              * If `a` can be safely cast to `R`, return the result
-             * of a dynamic_cast from A to R. Otherwise, boost::none.
+             * of a dynamic_cast from `A` to `R`. Otherwise, `boost::none`.
              * n.b. uses pointer form of dynamic cast internally,
              * so performance is balanced between success and failure
              * cases.
@@ -67,6 +67,20 @@ namespace com {
             template<typename R, typename A>
             boost::optional<R&> dynamic_optional_cast(A& a) {
                 return make_optional(dynamic_cast<R*>(&a));
+            }
+
+            /******************************************************
+             * Like `boost::make_optional<V>` by way of 
+             * `std::map::try_emplace`: `args` are not evaluated 
+             * unless `cond`. Useful with, e.g., `#LAZY_V`.
+             ******************************************************/
+            template<typename V, typename ...Args>
+            boost::optional<V> make_optional(bool cond, Args&& ...args) {
+                boost::optional<V> ret = boost::none;
+                if (cond) {
+                    ret.emplace(std::forward<Args>(args)...);
+                }
+                return ret;
             }
         }
     }
