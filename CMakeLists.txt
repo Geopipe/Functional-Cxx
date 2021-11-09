@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13.5)
+cmake_minimum_required(VERSION 3.15.0)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -15,7 +15,8 @@ message(STATUS "base_path = ${base_path}")
 
 add_library(functional-cxx INTERFACE)
 target_sources(functional-cxx INTERFACE ${base_path}/lazy-wrapper.hpp ${base_path}/stream.hpp ${base_path}/support/memory-hacks.hpp ${base_path}/support/unique-function.hpp)
-target_include_directories(functional-cxx INTERFACE ${functional_cxx_INCLUDE_DIR} ${Boost_INCLUDE_DIRS})
+target_include_directories(functional-cxx INTERFACE ${functional_cxx_INCLUDE_DIR})
+target_link_libraries(functional-cxx INTERFACE Boost::headers)
 
 add_subdirectory(example)
 
