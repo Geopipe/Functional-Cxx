@@ -31,4 +31,5 @@ int main(int argc, char* argv[]){
 		std::cout << std::endl;
 	}
 	int beep = _TODO(int);
+	std::cout << "beep value: " << beep << std::endl;
 }
