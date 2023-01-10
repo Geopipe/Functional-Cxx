@@ -23,65 +23,65 @@
 #include <type_traits>
 
 namespace com {
-    namespace geopipe {
-        /**************************************************
+	namespace geopipe {
+		/**************************************************
 		 * Tools for functional programming
 		 **************************************************/
-        namespace functional {
-            /**************************************************
+		namespace functional {
+			/**************************************************
 			 * Internal implementation details
 			 **************************************************/
-            namespace detail {
-                template<typename T>
-                struct is_optional { constexpr static const bool value = false; };
+			namespace detail {
+				template<typename T>
+				struct is_optional { constexpr static const bool value = false; };
 
-                template<typename E>
-                struct is_optional<boost::optional<E>> { constexpr static const bool value = true; };
-            }
+				template<typename E>
+				struct is_optional<boost::optional<E>> { constexpr static const bool value = true; };
+			}    // namespace detail
 
-            /// Apply `f` to the value stored in the `boost::optional`, `t`. No-op if `boost::none == t`.
-            template<typename T, typename F, std::enable_if_t<detail::is_optional<std::decay_t<T>>::value, bool> = true>
-            void for_each(T && t, F f) {
-                if(boost::none != t) {
-                    f(*std::forward<T>(t));
-                }
-            }
+			/// Apply `f` to the value stored in the `boost::optional`, `t`. No-op if `boost::none == t`.
+			template<typename T, typename F, std::enable_if_t<detail::is_optional<std::decay_t<T>>::value, bool> = true>
+			void for_each(T&& t, F f) {
+				if (boost::none != t) {
+					f(*std::forward<T>(t));
+				}
+			}
 
-            /// `boost::none` if `t == nullptr`, `*t` otherwise.
-            template<typename T>
-            boost::optional<T&> make_optional(T* t) {
-                if(nullptr == t) {
-                    return boost::none;
-                } else {
-                    return *t;
-                }
-            }
+			/// `boost::none` if `t == nullptr`, `*t` otherwise.
+			template<typename T>
+			boost::optional<T&> make_optional(T* t) {
+				if (nullptr == t) {
+					return boost::none;
+				} else {
+					return *t;
+				}
+			}
 
-            /******************************************************
-             * If `a` can be safely cast to `R`, return the result
-             * of a dynamic_cast from `A` to `R`. Otherwise, `boost::none`.
-             * n.b. uses pointer form of dynamic cast internally,
-             * so performance is balanced between success and failure
-             * cases.
-             ******************************************************/
-            template<typename R, typename A>
-            boost::optional<R&> dynamic_optional_cast(A& a) {
-                return make_optional(dynamic_cast<R*>(&a));
-            }
+			/******************************************************
+			 * If `a` can be safely cast to `R`, return the result
+			 * of a dynamic_cast from `A` to `R`. Otherwise, `boost::none`.
+			 * n.b. uses pointer form of dynamic cast internally,
+			 * so performance is balanced between success and failure
+			 * cases.
+			 ******************************************************/
+			template<typename R, typename A>
+			boost::optional<R&> dynamic_optional_cast(A& a) {
+				return make_optional(dynamic_cast<R*>(&a));
+			}
 
-            /******************************************************
-             * Like `boost::make_optional<V>` by way of 
-             * `std::map::try_emplace`: `args` are not evaluated 
-             * unless `cond`. Useful with, e.g., `#LAZY_V`.
-             ******************************************************/
-            template<typename V, typename ...Args>
-            boost::optional<V> make_optional(bool cond, Args&& ...args) {
-                boost::optional<V> ret = boost::none;
-                if (cond) {
-                    ret.emplace(std::forward<Args>(args)...);
-                }
-                return ret;
-            }
-        }
-    }
-}
+			/******************************************************
+			 * Like `boost::make_optional<V>` by way of 
+			 * `std::map::try_emplace`: `args` are not evaluated 
+			 * unless `cond`. Useful with, e.g., `#LAZY_V`.
+			 ******************************************************/
+			template<typename V, typename... Args>
+			boost::optional<V> make_optional(bool cond, Args&&... args) {
+				boost::optional<V> ret = boost::none;
+				if (cond) {
+					ret.emplace(std::forward<Args>(args)...);
+				}
+				return ret;
+			}
+		}    // namespace functional
+	}        // namespace geopipe
+}    // namespace com
