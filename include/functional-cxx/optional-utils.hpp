@@ -19,6 +19,7 @@
  *
  ************************************************************************************/
 
+#include <boost/none.hpp>
 #include <boost/optional.hpp>
 #include <type_traits>
 
@@ -81,6 +82,42 @@ namespace com {
 					ret.emplace(std::forward<Args>(args)...);
 				}
 				return ret;
+			}
+
+			template<typename T>
+			boost::optional<T>& first_of(boost::optional<T>&& a, boost::optional<T>&& b) {
+				if (a.has_value()) {
+					return a;
+				} else {
+					return b;
+				}
+			}
+
+			template<typename T>
+			const boost::optional<T>& first_of(const boost::optional<T>& a, const boost::optional<T>& b) {
+				if (a.has_value()) {
+					return a;
+				} else {
+					return b;
+				}
+			}
+
+			template<typename R, typename S>
+			boost::optional<std::pair<R, S>> both_of(boost::optional<R>&& r, boost::optional<S>&& s) {
+				if (r.has_value() && s.has_value()) {
+					return make_optional<std::pair<R, S>>(true, std::make_pair(r.get(), s.get()));
+				} else {
+					return boost::none;
+				}
+			}
+
+			template<typename R, typename S>
+			boost::optional<std::pair<const R&, const S&>> both_of(const boost::optional<R>& r, const boost::optional<S>& s) {
+				if (r.has_value() && s.has_value()) {
+					return boost::optional<std::pair<const R&, const S&>>(std::pair<const R&, const S&>(r.value(), s.value()));
+				} else {
+					return boost::none;
+				}
 			}
 		}    // namespace functional
 	}        // namespace geopipe
