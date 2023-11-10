@@ -69,7 +69,7 @@ namespace com {
  * when constructing V has side-effects and should only be 
  * done if `K` is not present.
  *****************************************************/
-#define LAZY_V(X) com::geopipe::functional::lazy{[&](){ return (X); }}
+#define LAZY_V(X) com::geopipe::functional::lazy{[&]() -> decltype((X) /* the nested parens are not optional */) { return (X); }}
 /*****************************************************
  * @def _TODO(type) 
  * Placeholder expression of type `type`.
